@@ -77,5 +77,6 @@ namespace Tarteeb.Api.Brokers.Storages
         {
             ConfigureUserEmail(modelBuilder.Entity<User>());
         }
+
     }
 }
