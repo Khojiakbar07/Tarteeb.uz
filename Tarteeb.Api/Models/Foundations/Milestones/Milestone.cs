@@ -17,10 +17,8 @@ namespace Tarteeb.Api.Models.Foundations.Milestones
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTimeOffset Deadline { get; set; }
-
         public DateTimeOffset CreatedDate { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
-
         public Guid AssigneeId { get; set; }
         [JsonIgnore]
         public User Assignee { get; set; }

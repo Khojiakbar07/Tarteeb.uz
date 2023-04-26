@@ -20,9 +20,7 @@ namespace Tarteeb.Api.Models.Foundations.Tickets
         public TicketStatus Status { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
-
         public Guid? AssigneeId { get; set; }
-
         public Guid CreatedUserId { get; set; }
         public Guid UpdatedUserId { get; set; }
         [JsonIgnore]

@@ -26,7 +26,6 @@ namespace Tarteeb.Api.Models.Foundations.Users
         public bool IsVerified { get; set; }
         public string GitHubUsername { get; set; }
         public string TelegramUsername { get; set; }
-
         public Guid TeamId { get; set; }
         [JsonIgnore]
         public Team Team { get; set; }
