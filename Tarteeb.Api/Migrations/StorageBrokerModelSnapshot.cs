@@ -226,6 +226,18 @@ namespace Tarteeb.Api.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("ResetPasswordExpiry")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("ResetPasswordToken")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("TeamId")
                         .HasColumnType("uniqueidentifier");
 

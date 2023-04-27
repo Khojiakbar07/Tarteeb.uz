@@ -26,6 +26,11 @@ namespace Tarteeb.Api.Models.Foundations.Users
         public bool IsVerified { get; set; }
         public string GitHubUsername { get; set; }
         public string TelegramUsername { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTimeOffset RefreshTokenExpiryTime { get; set; }
+        public string? ResetPasswordToken { get; set; }
+        public DateTimeOffset ResetPasswordExpiry { get; set; }
+
 
         public Guid TeamId { get; set; }
         [JsonIgnore]

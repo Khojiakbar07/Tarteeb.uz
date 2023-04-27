@@ -132,6 +132,7 @@ namespace Tarteeb.Api
             services.AddTransient<ITimeService, TimeService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IMilestoneService, MilestoneService>();
+            services.AddTransient<IEmailService, EmailService>();
         }
 
         private static void AddProcessingServices(IServiceCollection services) =>

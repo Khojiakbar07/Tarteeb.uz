@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="EFxceptions" Version="0.4.5" />
+		<PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.12" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
@@ -22,6 +23,8 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.25.1" />
+		<PackageReference Include="MimeKit" Version="4.0.0" />
+		<PackageReference Include="NETCore.MailKit" Version="2.1.0" />
 		<PackageReference Include="Postmark" Version="4.7.7" />
 		<PackageReference Include="RESTFulSense" Version="2.9.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
