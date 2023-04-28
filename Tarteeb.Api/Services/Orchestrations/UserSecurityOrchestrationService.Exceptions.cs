@@ -88,6 +88,10 @@ namespace Tarteeb.Api.Services.Orchestrations
             {
                 throw CreateAndLogDependencyValidationException(eserValidationException);
             }
+            catch (InvalidUserPasswordOrchestrationException invalidUserPasswordOrchestrationException)
+            {
+                throw CreateAndLogDependencyValidationException(invalidUserPasswordOrchestrationException);
+            }
             catch (Exception exception)
             {
                 var failedUserOrchestrationException =
@@ -108,11 +112,11 @@ namespace Tarteeb.Api.Services.Orchestrations
         private UserOrchestrationDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
         {
             var userOrchestrationDependencyValidationException =
-                new UserOrchestrationDependencyValidationException(exception.InnerException as Xeption);
+                new UserOrchestrationDependencyValidationException(exception);
 
             this.loggingBroker.LogError(userOrchestrationDependencyValidationException);
 
-            return userOrchestrationDependencyValidationException; ;
+            return userOrchestrationDependencyValidationException;
         }
 
         private UserOrchestrationDependencyException CreateAndLogDependencyException(Xeption exception)

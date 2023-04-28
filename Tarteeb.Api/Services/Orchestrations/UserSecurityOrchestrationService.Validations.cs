@@ -3,6 +3,7 @@
 // Free to use to bring order in your workplace
 //=================================
 
+using System.Text.RegularExpressions;
 using Tarteeb.Api.Models.Foundations.Users;
 using Tarteeb.Api.Models.Foundations.Users.Exceptions;
 using Tarteeb.Api.Models.Orchestrations.UserTokens.Exceptions;
@@ -16,6 +17,18 @@ namespace Tarteeb.Api.Services.Orchestrations
             Validate(
                 (Rule: IsInvalid(email), Parameter: nameof(User.Email)),
                 (Rule: IsInvalid(password), Parameter: nameof(User.Password)));
+        }
+
+        private static void ValidtePasswordStrongOrNot(string password)
+        {
+            string pattern = "^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\\-__+.]){1,}).{8,}$";
+            Regex regex = new Regex(pattern);
+            var result = regex.IsMatch(password);
+
+            if (result is false)
+            {
+                throw new InvalidUserPasswordOrchestrationException();
+            }
         }
 
         private void ValidateUserExists(User user)

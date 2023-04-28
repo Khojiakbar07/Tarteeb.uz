@@ -3,9 +3,9 @@
 // Free to use to bring order in your workplace
 //=================================
 
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
+using System.Threading.Tasks;
 using Tarteeb.Api.Models.Foundations.Users;
 using Tarteeb.Api.Models.Foundations.Users.Exceptions;
 using Tarteeb.Api.Models.Orchestrations.UserTokens;
@@ -40,6 +40,11 @@ namespace Tarteeb.Api.Controllers
                 when (userOrchestrationDependencyValidationException.InnerException is AlreadyExistsUserException)
             {
                 return Conflict(userOrchestrationDependencyValidationException.InnerException);
+            }
+            catch (UserOrchestrationDependencyValidationException userOrchestrationDependencyValidationException)
+               when (userOrchestrationDependencyValidationException.InnerException is InvalidUserPasswordOrchestrationException)
+            {
+                return BadGateway(userOrchestrationDependencyValidationException.InnerException);
             }
             catch (UserOrchestrationDependencyValidationException userOrchestrationDependencyValidationException)
             {
