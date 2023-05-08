@@ -5,7 +5,9 @@
 
 using System;
 using System.Threading.Tasks;
+using EFxceptions.Models.Exceptions;
 using FluentAssertions;
+using Force.DeepCloner;
 using Moq;
 using Tarteeb.Api.Models.Foundations.Emails;
 using Tarteeb.Api.Models.Foundations.Users;
@@ -134,6 +136,47 @@ namespace Tarteeb.Api.Tests.Unit.Services.Orchestrations
             this.loggingBrokerMock.Verify(
                 broker => broker.LogError(It.Is(SameExceptionAs(
                     expectedUserOrchestrationServiceException))), Times.Once);
+
+            this.emailServiceMock.Verify(service =>
+                service.SendEmailAsync(It.IsAny<Email>()), Times.Never);
+
+            this.userServiceMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.emailServiceMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnCreateAccountWhenDuplicateKeyErrorOccursAndLogItAsync()
+        {
+            // given
+            string someEmail = GetRandomString();
+            string randomUrl = CreateRandomUrl();
+            User randomUser = CreateRandomUser();
+            randomUser.Email = someEmail;
+            User inputUser = randomUser.DeepClone();
+
+            var dbKeyException = new DuplicateKeyException(someEmail);
+            var expectedAlreadyExistUserEmailException = new AlreadyExistUserEmailException(dbKeyException);
+
+            var userEmailDependencyValidationException =
+                new UserOrchestrationDependencyValidationException(expectedAlreadyExistUserEmailException);
+
+            // when
+            ValueTask<User> addUserEmailTask = 
+                this.userSecurityOrchestrationService.CreateUserAccountAsync(inputUser, randomUrl);
+
+            AlreadyExistUserEmailException actualAlreadyExistUserEmailException =
+                await Assert.ThrowsAsync<AlreadyExistUserEmailException>(addUserEmailTask.AsTask);
+
+            // then
+            actualAlreadyExistUserEmailException.Should().BeEquivalentTo(expectedAlreadyExistUserEmailException);
+
+            this.userServiceMock.Verify(service =>
+                service.AddUserAsync(It.IsAny<User>()), Times.Once);
+
+            this.loggingBrokerMock.Verify(
+                broker => broker.LogError(It.Is(SameExceptionAs(
+                    expectedAlreadyExistUserEmailException))), Times.Once);
 
             this.emailServiceMock.Verify(service =>
                 service.SendEmailAsync(It.IsAny<Email>()), Times.Never);
