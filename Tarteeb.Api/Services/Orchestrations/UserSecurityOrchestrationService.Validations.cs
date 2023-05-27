@@ -18,6 +18,14 @@ namespace Tarteeb.Api.Services.Orchestrations
                 (Rule: IsInvalid(password), Parameter: nameof(User.Password)));
         }
 
+        private void ValidateUser(User user)
+        {
+            ValidateUserExists(user);
+
+            Validate(
+                (Rule: IsUnverified(user.IsVerified), Parameter: nameof(User.IsVerified)));
+        }
+
         private void ValidateUserExists(User user)
         {
             if (user is null)
@@ -30,6 +38,12 @@ namespace Tarteeb.Api.Services.Orchestrations
         {
             Condition = string.IsNullOrWhiteSpace(text),
             Message = "Value is required"
+        };
+
+        private static dynamic IsUnverified(bool isVerified) => new
+        {
+            Condition = isVerified is false,
+            Message = "User is not verified"
         };
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
