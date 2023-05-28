@@ -40,7 +40,8 @@ namespace Tarteeb.Api.Services.Orchestrations
         {
             User persistedUser = await this.userService.AddUserAsync(user);
             Email email = CreateUserEmail(persistedUser, requestUrl);
-            await this.emailService.SendEmailAsync(email);
+            ValidateUser(user);
+           await this.emailService.SendEmailAsync(email);
 
             return persistedUser;
         });
